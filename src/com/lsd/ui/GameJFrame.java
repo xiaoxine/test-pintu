@@ -1,19 +1,47 @@
 package com.lsd.ui;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class GameJFrame extends JFrame {
+
+    //二维数组,管理数据，加载图片需用到，扩大范围
+    int[][] data =new int[4][4];
 
     public GameJFrame() {
         //初始化界面
         initJFrame();
         //初始化菜单
         initJMenuBar();
+        //初始化数据
+        initData();
         //图片
         initImage();
         //可见
         this.setVisible(true);
         //shift+ enter 中途换行
+    }
+
+    private void initData() {
+        int[] tempArray ={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+        Random random = new Random();
+        //打乱
+        for (int i = 0; i < tempArray.length; i++) {
+            int index = random.nextInt(tempArray.length);
+            //交换
+            int temp = tempArray[i];
+            tempArray[i] = tempArray[index];
+            tempArray[index] = temp;
+        }
+
+        int index =0;
+        //赋值二维数组
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                data[i][j] = tempArray[index];//或index=0，index++，，， tempArray[i*4+j]
+                index++;
+            }
+        }
     }
 
     private void initImage() {
@@ -26,18 +54,20 @@ public class GameJFrame extends JFrame {
 //        //this.add(Jlabel);
 //        //获取隐藏容器panel再添加
 //        this.getContentPane().add(Jlabel);
-        int num =1;
+
+        //int num =1; //old
         //外循环，把内循环重复4次
         for (int i = 0; i < 4; i++) {
             //内循环，添加4张图片
             for (int j = 0; j < 4; j++) {
+                int num = data[i][j];
                 //创建一个label对象，管理容器加图片
                 JLabel Jlabel = new JLabel(new ImageIcon("D:\\java-project\\test-pintu\\image\\animal\\animal3\\"+num+".jpg"));
                 Jlabel.setBounds(105*j, 105*i, 105, 105);//105,105
                 //获取隐藏容器panel再添加
                 this.getContentPane().add(Jlabel);
                 //加载下一张
-                num++;
+                //num++; //old
             }
         }
 
