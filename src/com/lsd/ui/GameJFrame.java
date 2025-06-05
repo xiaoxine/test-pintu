@@ -1,6 +1,9 @@
 package com.lsd.ui;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.util.Random;
 
 public class GameJFrame extends JFrame {
@@ -55,6 +58,8 @@ public class GameJFrame extends JFrame {
 //        //获取隐藏容器panel再添加
 //        this.getContentPane().add(Jlabel);
 
+
+
         //int num =1; //old
         //外循环，把内循环重复4次
         for (int i = 0; i < 4; i++) {
@@ -62,22 +67,32 @@ public class GameJFrame extends JFrame {
             for (int j = 0; j < 4; j++) {
                 int num = data[i][j];
                 //创建一个label对象，管理容器加图片
-                JLabel Jlabel = new JLabel(new ImageIcon("D:\\java-project\\test-pintu\\image\\animal\\animal3\\"+num+".jpg"));
-                Jlabel.setBounds(105*j, 105*i, 105, 105);//105,105
+                JLabel Jlabel = new JLabel(new ImageIcon("image\\animal\\animal3\\"+num+".jpg"));
+                Jlabel.setBounds(105*j+83, 105*i+134, 105, 105);//偏移中间
+                //设置图片的边框
+                //Jlabel.setBorder(new LineBorder(Color.yellow));
+                Jlabel.setBorder(new BevelBorder(BevelBorder.LOWERED));
                 //获取隐藏容器panel再添加
                 this.getContentPane().add(Jlabel);
                 //加载下一张
                 //num++; //old
             }
         }
+        //D:\java-project\test-pintu
+        //System.out.println("当前工作目录是: " + System.getProperty("user.dir"));
 
+        //背景，先图片，后背景图D:\java-project\test-pintu\image\background.png
+        JLabel background = new JLabel(new ImageIcon("image\\background.png"));
+        background.setBounds(40,40,508,560);
+        //隐藏容器添加JLabel 对象
+        this.getContentPane().add(background);
     }
 
     private void initJFrame() {
         //标题
         this.setTitle("拼图单机版v1.0.0");
         //大小
-        this.setSize(488,430);
+        this.setSize(628,628);
         //多个窗口，在顶
         this.setAlwaysOnTop(true);
         //居中,窗口显示居中
