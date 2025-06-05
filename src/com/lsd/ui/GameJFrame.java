@@ -92,7 +92,7 @@ public class GameJFrame extends JFrame {
         //标题
         this.setTitle("拼图单机版v1.0.0");
         //大小
-        this.setSize(628,628);
+        this.setSize(628,668);
         //多个窗口，在顶
         this.setAlwaysOnTop(true);
         //居中,窗口显示居中
