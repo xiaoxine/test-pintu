@@ -54,5 +54,7 @@ public class GameJFrame extends JFrame {
         //给整个界面设置菜单栏
         this.setJMenuBar(menuBar);
 
+        //test
+
     }
 }
