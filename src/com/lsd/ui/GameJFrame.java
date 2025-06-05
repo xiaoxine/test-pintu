@@ -4,11 +4,43 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
-public class GameJFrame extends JFrame implements KeyListener {
+public class GameJFrame extends JFrame implements KeyListener, ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if(source == replayItem){
+            count =0;
+             initData();
+             initImage();
+
+        }else if(source == exitItem){
+            System.exit(0);
+        } else if (source ==reLoginItem) {
+            System.out.println("xx");
+            this.setVisible(false);
+            new LoginJFrame();
+            //登录页面
+
+        } else if (source ==wxItem) {
+            System.out.println("wx");
+            JDialog jd = new JDialog();
+            JLabel jLabel = new JLabel(new ImageIcon("image\\about.png"));
+            jLabel.setBounds(0, 0, 100, 100);
+            jd.getContentPane().add(jLabel);
+            jd.setSize(300, 300);
+            jd.setAlwaysOnTop(true);
+            jd.setLocationRelativeTo(null);
+            jd.setModal(true);//不关闭不能操作
+            jd.setVisible(true);
+
+        }
+    }
 
     //二维数组,管理数据，加载图片需用到，扩大范围
     int[][] data =new int[4][4];
@@ -18,7 +50,16 @@ public class GameJFrame extends JFrame implements KeyListener {
     //路径
     String path ="image\\animal\\animal3\\";
 
-    int[][] win = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}};
+    int[][] win = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}};//胜利，用于比较
+
+    int count=0;//计数，步数
+
+    //条目
+    JMenuItem exitItem = new JMenuItem("退出游戏");
+    JMenuItem replayItem = new JMenuItem("重玩");
+    JMenuItem reLoginItem = new JMenuItem("登录");
+    //
+    JMenuItem wxItem= new JMenuItem("公众号");
 
     public GameJFrame() {
         //初始化界面
@@ -58,9 +99,9 @@ public class GameJFrame extends JFrame implements KeyListener {
             if(tempArray[i]==0){
                 x=i/4;
                 y=i%4;
-            }else {
-                data[i/4][i%4]=tempArray[i];
             }
+            data[i/4][i%4]=tempArray[i];
+
         }
     }
 
@@ -83,6 +124,9 @@ public class GameJFrame extends JFrame implements KeyListener {
             this.getContentPane().add(winpic);
 
         }
+        JLabel stepCount = new JLabel("步数"+count);
+        stepCount.setBounds(50,30,100,20);
+        this.getContentPane().add(stepCount);
         //int num =1; //old
         //外循环，把内循环重复4次
         for (int i = 0; i < 4; i++) {
@@ -141,18 +185,20 @@ public class GameJFrame extends JFrame implements KeyListener {
         //菜单
         JMenu functionJMenu = new JMenu("功能");
         JMenu aboutItem = new JMenu("关于我们");
-        //条目
-        JMenuItem exitItem = new JMenuItem("退出游戏");
-        JMenuItem replayItem = new JMenuItem("重玩");
-        JMenuItem reLoginItem = new JMenuItem("登录");
+
         //
         functionJMenu.add(replayItem);
         functionJMenu.add(reLoginItem);
         functionJMenu.add(exitItem);
-        //
-        JMenuItem wxItem= new JMenuItem("公众号");
+        //绑定监听事件监听
+        replayItem.addActionListener(this);
+        reLoginItem.addActionListener(this);
+        exitItem.addActionListener(this);
+
         //条目加到选项
         aboutItem.add(wxItem);
+        wxItem.addActionListener(this);
+
         //菜单加到菜单栏
         menuBar.add(functionJMenu);
         menuBar.add(aboutItem);
@@ -207,6 +253,8 @@ public class GameJFrame extends JFrame implements KeyListener {
             data[x][y] =data[x][y-1];
             data[x][y-1] =0;
             y--;
+            //计数器+1
+            count++;
             initImage();
         }else if(code==38){
             if(x==3){
@@ -216,6 +264,8 @@ public class GameJFrame extends JFrame implements KeyListener {
             data[x][y] =data[x+1][y];
             data[x+1][y] =0;
             x++;
+            //计数器+1
+            count++;
             initImage();
         }else if(code==37){
             if(y==3){
@@ -225,6 +275,8 @@ public class GameJFrame extends JFrame implements KeyListener {
             data[x][y] =data[x][y+1];
             data[x][y+1] =0;
             y++;
+            //计数器+1
+            count++;
             initImage();
         }else if(code==40){
             if(x==0){
@@ -234,6 +286,8 @@ public class GameJFrame extends JFrame implements KeyListener {
             data[x][y] =data[x-1][y];
             data[x-1][y] =0;
             x--;
+            //计数器+1
+            count++;
             initImage();
         }else if(code==65){
             initImage();
