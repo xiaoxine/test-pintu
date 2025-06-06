@@ -1,6 +1,12 @@
-# 个人练习-🐱
+# 项目简介-🐱
 
-这是一个简单的拼图游戏。
+这是一个的拼图游戏。
+
+[![和 ChatGPT 聊聊](https://img.shields.io/badge/AI-ChatGPT-green)](https://chat.openai.com/)
+![Java](https://img.shields.io/badge/Java-17-blue)
+![状态](https://img.shields.io/badge/开发进程-进行中-yellow)
+![状态](https://img.shields.io/badge/Intelli_idea-2024.3.6-black)
+
 
 ## 项目结构
 
@@ -8,8 +14,14 @@
 - `image/`：图片资源
 
 ## 截图
-<img src="screenshot/界面搭建.png" alt="界面搭建" width="400"/>
-<img src="screenshot/成功页面.png" alt="成功页面" width="400"/>
+
+
+<p align="center">
+  <img src="screenshot/界面搭建.png" alt="界面搭建" width="400" style="display:inline-block; margin-right:10px;"/>
+  <img src="screenshot/成功页面.png" alt="成功页面" width="400" style="display:inline-block;"/>
+      <img src="screenshot/登录页面.png" alt="登录页面" width="400"/>
+</p>
+
 
 ### **git-记录**
 
@@ -45,15 +57,32 @@ next：登录界面，业务分析，更换图片种类，栏目等
 - [x] 完成移动图片功能
 - [x] 实现计步数
 - [x] 添加快捷键，作弊码
+- [x] 更换图片种类
 - [ ] 完成登录功能
-- [ ] 更换图片种类
 - [ ] 添加排行榜
       
 ## 📅 开发日志
-
-- 🗓️ 2025-06-06：创建项目上传GitHub。
+- 🗓️ 2025-06-06：完善其他页面。
+- 🗓️ 2025-06-05：创建项目上传GitHub。
 - 🗓️ 2025-06-05：实现主要功能。
 - 🗓️ 2025-06-05：看视频。
+---
+
+<details>
+<summary> 图片没有显示？</summary>
+
+ ### 请确保图片路径是相对于项目根目录的。
+
+</details>
+<details>
+<summary> 出现两个空格？</summary>
+
+ ### 请确保打乱数组时，记录0的位置后新的二维数组也需要重新赋值。
+
+</details>
+
+
+
 
 
 
