@@ -30,8 +30,8 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         } else if (source ==wxItem) {
             System.out.println("wx");
             JDialog jd = new JDialog();
-            JLabel jLabel = new JLabel(new ImageIcon("image\\about.png"));
-            jLabel.setBounds(0, 0, 100, 100);
+            JLabel jLabel = new JLabel(new ImageIcon("image\\damie.jpg"));
+            jLabel.setBounds(0, 0, 300, 300);
             jd.getContentPane().add(jLabel);
             jd.setSize(300, 300);
             jd.setAlwaysOnTop(true);
@@ -39,6 +39,34 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             jd.setModal(true);//不关闭不能操作
             jd.setVisible(true);
 
+        } else if (source == girlItem) {
+            System.out.println("girl");
+            //随机
+            Random r= new Random();
+            //path
+             path ="image\\girl\\girl"+r.nextInt(13)+"\\";
+            //重新加载
+            count =0;
+            initData();
+            initImage();
+        } else if (source == animalItem) {
+            //随机
+            Random r= new Random();
+            //path
+            path ="image\\animal\\animal"+r.nextInt(8)+"\\";
+            //重新加载
+            count =0;
+            initData();
+            initImage();
+        } else if (source== sportItem) {
+            //随机
+            Random r= new Random();
+            //path有路径错误的情况
+            path ="image\\sport\\sport"+r.nextInt(10)+"\\";
+            //重新加载
+            count =0;
+            initData();
+            initImage();
         }
     }
 
@@ -58,6 +86,9 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
     JMenuItem exitItem = new JMenuItem("退出游戏");
     JMenuItem replayItem = new JMenuItem("重玩");
     JMenuItem reLoginItem = new JMenuItem("登录");
+    JMenuItem girlItem = new JMenuItem("女孩");
+    JMenuItem animalItem = new JMenuItem("动物");
+    JMenuItem sportItem = new JMenuItem("运动");
     //
     JMenuItem wxItem= new JMenuItem("公众号");
 
@@ -186,14 +217,23 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         JMenu functionJMenu = new JMenu("功能");
         JMenu aboutItem = new JMenu("关于我们");
 
+        JMenu changeMenu = new JMenu("change");
+        changeMenu.add(girlItem);
+        changeMenu.add(animalItem);
+        changeMenu.add(sportItem);
         //
         functionJMenu.add(replayItem);
         functionJMenu.add(reLoginItem);
         functionJMenu.add(exitItem);
+        functionJMenu.add(changeMenu);//更换图片
         //绑定监听事件监听
         replayItem.addActionListener(this);
         reLoginItem.addActionListener(this);
         exitItem.addActionListener(this);
+        girlItem.addActionListener(this);
+        animalItem.addActionListener(this);
+        sportItem.addActionListener(this);
+
 
         //条目加到选项
         aboutItem.add(wxItem);
