@@ -7,7 +7,7 @@ public class App {
         //程序入口
         new GameJFrame();
         //登录界面
-        new LoginJFrame();
+        //new LoginJFrame();
         //注册界面
         new RegisterJFrame();
     }
