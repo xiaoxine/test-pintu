@@ -9,6 +9,6 @@ public class App {
         //登录界面
         //new LoginJFrame();
         //注册界面
-        new RegisterJFrame();
+        //new RegisterJFrame();
     }
 }

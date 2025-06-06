@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
+import static com.lsd.ui.LoginJFrame.nowName;
+
 public class GameJFrame extends JFrame implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -155,9 +157,17 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             this.getContentPane().add(winpic);
 
         }
-        JLabel stepCount = new JLabel("步数"+count);
+        JLabel stepCount = new JLabel("步数:"+count);
         stepCount.setBounds(50,30,100,20);
         this.getContentPane().add(stepCount);
+        JLabel jName = new JLabel("当前玩家:"+nowName);//LoginJFrame.nowName
+        jName.setBounds(50,50,100,20);
+        this.getContentPane().add(jName);
+
+/*        JLabel jNum = new JLabel("当前排名:");//LoginJFrame.nowName
+        jNum.setBounds(50,50,100,20);
+        this.getContentPane().add(jNum);*/
+
         //int num =1; //old
         //外循环，把内循环重复4次
         for (int i = 0; i < 4; i++) {

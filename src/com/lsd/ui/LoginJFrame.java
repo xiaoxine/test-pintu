@@ -1,9 +1,13 @@
 package com.lsd.ui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 
 public class LoginJFrame extends JFrame implements MouseListener {
@@ -16,23 +20,33 @@ public class LoginJFrame extends JFrame implements MouseListener {
     JPasswordField passWordField = new JPasswordField();
     JTextField testCodeField = new JTextField();
 
+    static String nowName ="" ;
+
+    //创建一个集合存储正确的内容
+    static ArrayList<User> list = new ArrayList<>();
+
+    static {
+        list.add(new User("zhangsan", "12345".toCharArray()));
+        list.add(new User("aa", "aa".toCharArray()));
+    }
+
     //构造方法，加载配置
     public LoginJFrame() {
 
         //取消默认的组件居中方式，细节
         this.setLayout(null);
         this.setTitle("登录界面");
-        this.setSize(480,430);
+        this.setSize(480, 430);
 
-        background.setBounds(0,0,470,400);
+        background.setBounds(0, 0, 470, 400);
         //隐藏容器加JLabel对象
         this.getContentPane().add(background);
         JLabel userName = new JLabel(new ImageIcon("image\\login\\用户名.png"));
-        userName.setBounds(150,150,47,17);
+        userName.setBounds(150, 150, 47, 17);
         JLabel passWord = new JLabel(new ImageIcon("image\\login\\密码.png"));
-        passWord.setBounds(150,190,32,16);
+        passWord.setBounds(150, 190, 32, 16);
         JLabel testCode = new JLabel(new ImageIcon("image\\login\\验证码.png"));
-        testCode.setBounds(150,230,56,21);
+        testCode.setBounds(150, 230, 56, 21);
 /*        this.getContentPane().add(userName);
         this.getContentPane().add(passWord);
         this.getContentPane().add(testCode);*/
@@ -43,18 +57,18 @@ public class LoginJFrame extends JFrame implements MouseListener {
         background.add(testCode);
 
 
-        userNameField.setBounds(210,150,200,20);
-        passWordField.setBounds(210,190,200,20);
-        testCodeField.setBounds(210,230,100,20);
+        userNameField.setBounds(210, 150, 200, 20);
+        passWordField.setBounds(210, 190, 200, 20);
+        testCodeField.setBounds(210, 230, 100, 20);
         String codeStr = "1234";
         JLabel rightCode = new JLabel();
         rightCode.setText(codeStr);
-        rightCode.setBounds(310,230,50,20);
+        rightCode.setBounds(310, 230, 50, 20);
 
-        jButton1.setBounds(150,270,128,47);
-        jButton2.setBounds(300,270,128,47);
-        jButton3.setBounds(150,270,128,47);
-        jButton4.setBounds(300,270,128,47);
+        jButton1.setBounds(150, 270, 128, 47);
+        jButton2.setBounds(300, 270, 128, 47);
+        jButton3.setBounds(150, 270, 128, 47);
+        jButton4.setBounds(300, 270, 128, 47);
         //去除按钮边框和背景
         jButton1.setBorderPainted(false);
         jButton2.setBorderPainted(false);
@@ -81,7 +95,6 @@ public class LoginJFrame extends JFrame implements MouseListener {
         background.add(rightCode);
 
 
-
         //居中
         this.setLocationRelativeTo(null);
         //默认关闭，0,1,2什么也不做，暴露,关闭
@@ -100,6 +113,48 @@ public class LoginJFrame extends JFrame implements MouseListener {
 
         //比较
 
+        Object source = e.getSource();//事件获取
+        if (source == jButton3 || source == jButton1) {//登录
+            System.out.println(userNameField.getText());
+            System.out.println(passWordField.getPassword());
+            String tempUser = userNameField.getText();
+            char[] tempPass = passWordField.getPassword();
+            if (Objects.equals(testCodeField.getText(), "")) {
+                showJDialog("请输入验证码");
+                return;
+            }
+            if (!testCodeField.getText().equals("1234")) {  //next 工具类提供验证
+                showJDialog("验证码错误");
+                return;
+            }
+            if (Objects.equals(tempUser, "") || tempPass.length == 0) {
+                //System.out.println("请输入用户名或密码");
+                showJDialog("请输入用户名或密码");
+            }
+            boolean loginSuccess = false;
+            for (int i = 0; i < list.size(); i++) {
+                if (tempUser.equals(list.get(i).getUserName())) {
+                    if (Arrays.equals(tempPass, list.get(i).getPassWord())) {
+                        System.out.println("登录成功");
+                        loginSuccess = true;
+                        this.setVisible(false);
+                        nowName =tempUser;
+                        new GameJFrame();
+                        //游戏页面
+                        break; // 找到匹配用户后可以退出循环
+                    }
+                }
+            }
+            if (!loginSuccess) {
+                System.out.println("用户名或密码错误");
+                showJDialog("用户名或密码错误");
+                return;
+            }
+
+        } else if (source == jButton4 || source == jButton2) {//注册
+            //
+        }
+
     }
 
     @Override
@@ -109,8 +164,13 @@ public class LoginJFrame extends JFrame implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
         Object source = e.getSource();//事件获取
-        if(source == jButton1){
+        if (source == jButton1) {
             jButton1.setVisible(false);
             jButton3.setVisible(true);
         } else if (source == jButton2) {
@@ -120,26 +180,41 @@ public class LoginJFrame extends JFrame implements MouseListener {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
     public void mouseExited(MouseEvent e) {
-/*        jButton1.setVisible(true);
-        jButton2.setVisible(true);
-        jButton3.setVisible(false);
-        jButton4.setVisible(false);*/
-        //
 
         Object source = e.getSource();//事件获取
-        if(source == jButton3){
+        if (source == jButton3) {//登录
             jButton1.setVisible(true);
             jButton3.setVisible(false);
-        } else if (source == jButton4) {
+
+
+        } else if (source == jButton4) {//注册
             jButton2.setVisible(true);
             jButton4.setVisible(false);
         }
 
+    }
+
+    //显示对话框
+    public void showJDialog(String title) {
+        JDialog jd = new JDialog(this, "提示", true); // 设置标题 & 模态
+        jd.setSize(300, 150);
+        jd.setAlwaysOnTop(true);
+        jd.setLocationRelativeTo(this); // 相对主窗口居中
+
+        // 创建内容面板并使用布局
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout(10, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // 添加内边距
+
+        // 设置字体和居中
+        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
+        titleLabel.setFont(new Font("微软雅黑", Font.BOLD, 16));
+
+        panel.add(titleLabel, BorderLayout.CENTER);
+
+        // 添加到对话框中
+        jd.setContentPane(panel);
+        jd.setVisible(true);
     }
 }
