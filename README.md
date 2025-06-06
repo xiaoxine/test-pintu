@@ -4,7 +4,7 @@
 
 [![和 ChatGPT 聊聊](https://img.shields.io/badge/AI-ChatGPT-green)](https://chat.openai.com/)
 ![Java](https://img.shields.io/badge/Java-17-blue)
-![状态](https://img.shields.io/badge/开发进程-进行中-yellow)
+![状态](https://img.shields.io/badge/开发进程-完成-yellow)
 ![状态](https://img.shields.io/badge/Intelli_idea-2024.3.6-black)
 
 
@@ -19,7 +19,11 @@
 <p align="center">
   <img src="screenshot/界面搭建.png" alt="界面搭建" width="400" style="display:inline-block; margin-right:10px;"/>
   <img src="screenshot/成功页面.png" alt="成功页面" width="400" style="display:inline-block;"/>
-      <img src="screenshot/登录页面.png" alt="登录页面" width="400"/>
+</p>
+
+<p align="center"> 
+    <img src="screenshot/登录页面.png" alt="登录页面" width="400" style="display:inline-block; margin-right:10px;"/>
+  <img src="screenshot/登录失败.png" alt="登录失败" width="400" style="display:inline-block;"/>
 </p>
 
 
@@ -51,14 +55,17 @@ next：移动图片
 
 ~~1,记步，菜单栏~~
 
+登录功能，和静态数据对比
+final,注册，验证码，排位
+
 待做
-next：登录界面，业务分析，更换图片种类，栏目等
+next：注册，验证码，排位等
 ---
 - [x] 完成移动图片功能
 - [x] 实现计步数
 - [x] 添加快捷键，作弊码
 - [x] 更换图片种类
-- [ ] 完成登录功能
+- [x] 完成登录功能
 - [ ] 添加排行榜
       
 ## 📅 开发日志
