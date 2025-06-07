@@ -2,7 +2,6 @@ package com.lsd.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -130,15 +129,16 @@ public class LoginJFrame extends JFrame implements MouseListener {
             if (Objects.equals(tempUser, "") || tempPass.length == 0) {
                 //System.out.println("请输入用户名或密码");
                 showJDialog("请输入用户名或密码");
+                return;
             }
             boolean loginSuccess = false;
-            for (int i = 0; i < list.size(); i++) {
-                if (tempUser.equals(list.get(i).getUserName())) {
-                    if (Arrays.equals(tempPass, list.get(i).getPassWord())) {
+            for (User user : list) {
+                if (tempUser.equals(user.getUserName())) {
+                    if (Arrays.equals(tempPass, user.getPassWord())) {
                         System.out.println("登录成功");
                         loginSuccess = true;
                         this.setVisible(false);
-                        nowName =tempUser;
+                        nowName = tempUser;
                         new GameJFrame();
                         //游戏页面
                         break; // 找到匹配用户后可以退出循环
@@ -148,11 +148,11 @@ public class LoginJFrame extends JFrame implements MouseListener {
             if (!loginSuccess) {
                 System.out.println("用户名或密码错误");
                 showJDialog("用户名或密码错误");
-                return;
             }
 
         } else if (source == jButton4 || source == jButton2) {//注册
-            //
+            this.setVisible(false);
+            new RegisterJFrame();
         }
 
     }
