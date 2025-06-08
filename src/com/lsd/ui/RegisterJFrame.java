@@ -1,7 +1,7 @@
 package com.lsd.ui;
 
 import javax.swing.*;
-import java.awt.*;
+//import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
@@ -18,7 +18,7 @@ public class RegisterJFrame extends JFrame implements ActionListener {
             char[] tempPass = passWordField.getPassword();
 
             if (Objects.equals(tempUser, "") || tempPass.length == 0) {
-                showJDialog("请输入用户名或密码");
+                DialogUtils.showJDialog(this,"请输入用户名或密码");
                 return;
             }
             boolean userOld = false;
@@ -29,7 +29,7 @@ public class RegisterJFrame extends JFrame implements ActionListener {
                 }
             }
             if (userOld) {
-                showJDialog("用户名已存在");
+                DialogUtils.showJDialog(this,"用户名已存在");
                 return;
             }
             LoginJFrame.list.add(new User(tempUser, tempPass));
@@ -80,26 +80,5 @@ public class RegisterJFrame extends JFrame implements ActionListener {
         this.setVisible(true);
         //shift+ enter 中途换行
     }
-    //显示对话框
-    public void showJDialog(String title) {
-        JDialog jd = new JDialog(this, "提示", true); // 设置标题 & 模态
-        jd.setSize(300, 150);
-        jd.setAlwaysOnTop(true);
-        jd.setLocationRelativeTo(this); // 相对主窗口居中
 
-        // 创建内容面板并使用布局
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout(10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // 添加内边距
-
-        // 设置字体和居中
-        JLabel titleLabel = new JLabel(title, SwingConstants.CENTER);
-        titleLabel.setFont(new Font("微软雅黑", Font.BOLD, 16));
-
-        panel.add(titleLabel, BorderLayout.CENTER);
-
-        // 添加到对话框中
-        jd.setContentPane(panel);
-        jd.setVisible(true);
-    }
 }

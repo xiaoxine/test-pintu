@@ -1,7 +1,7 @@
 package com.lsd.ui;
 
 import javax.swing.*;
-import java.awt.*;
+//import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -119,16 +119,16 @@ public class LoginJFrame extends JFrame implements MouseListener {
             String tempUser = userNameField.getText();
             char[] tempPass = passWordField.getPassword();
             if (Objects.equals(testCodeField.getText(), "")) {
-                showJDialog("请输入验证码");
+                DialogUtils.showJDialog(this,"请输入验证码");
                 return;
             }
             if (!testCodeField.getText().equals("1234")) {  //next 工具类提供验证
-                showJDialog("验证码错误");
+                DialogUtils.showJDialog(this,"验证码错误");
                 return;
             }
             if (Objects.equals(tempUser, "") || tempPass.length == 0) {
                 //System.out.println("请输入用户名或密码");
-                showJDialog("请输入用户名或密码");
+                DialogUtils.showJDialog(this,"请输入用户名或密码");
                 return;
             }
             boolean loginSuccess = false;
@@ -147,7 +147,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
             }
             if (!loginSuccess) {
                 System.out.println("用户名或密码错误");
-                showJDialog("用户名或密码错误");
+                DialogUtils.showJDialog(this,"用户名或密码错误");
             }
 
         } else if (source == jButton4 || source == jButton2) {//注册
@@ -195,7 +195,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
 
     }
 
-    //显示对话框
+/*    //显示对话框old改为工具类
     public void showJDialog(String title) {
         JDialog jd = new JDialog(this, "提示", true); // 设置标题 & 模态
         jd.setSize(300, 150);
@@ -216,5 +216,5 @@ public class LoginJFrame extends JFrame implements MouseListener {
         // 添加到对话框中
         jd.setContentPane(panel);
         jd.setVisible(true);
-    }
+    }*/
 }
