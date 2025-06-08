@@ -9,6 +9,7 @@ import java.util.Objects;
 //import static com.lsd.ui.LoginJFrame.list;
 
 public class RegisterJFrame extends JFrame implements ActionListener {
+    LoginJFrame loginJFrame = null;
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source =e.getSource();
@@ -34,8 +35,14 @@ public class RegisterJFrame extends JFrame implements ActionListener {
             }
             LoginJFrame.list.add(new User(tempUser, tempPass));
             this.setVisible(false);
-            new LoginJFrame().setVisible(true);
-
+            //new LoginJFrame().setVisible(true);//这里重复用户名密码不会报错，static共享了，但是有更好的写法
+            if(loginJFrame == null)
+            {
+                loginJFrame = new LoginJFrame();
+            }else
+            {
+                loginJFrame.setVisible(true);
+            }
         }
     }
 

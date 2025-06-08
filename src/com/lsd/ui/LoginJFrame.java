@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 
 
 public class LoginJFrame extends JFrame implements MouseListener {
@@ -23,10 +24,10 @@ public class LoginJFrame extends JFrame implements MouseListener {
     RegisterJFrame registerJFrame = null;
     //当前玩家
     static String nowName ="" ;
-
+    String codeStr = "1234";
     //创建一个集合存储正确的内容
     static ArrayList<User> list = new ArrayList<>();
-    //只执行一次，随着类的加载而加载，做数据初始化,静态里面只能用静态
+    // 静态代码块,只执行一次，随着类的加载而加载，做数据初始化,静态里面只能用静态
     static {
         list.add(new User("bb", "bb".toCharArray()));
         list.add(new User("aa", "aa".toCharArray()));
@@ -62,7 +63,16 @@ public class LoginJFrame extends JFrame implements MouseListener {
         userNameField.setBounds(210, 150, 200, 20);
         passWordField.setBounds(210, 190, 200, 20);
         testCodeField.setBounds(210, 230, 100, 20);
-        String codeStr = "1234";
+        Random random = new Random();
+        //codeStr =random.nextInt(10,99)+"ab";
+        // 生成一个 4 位随机验证码（字母+数字）
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder codeBuilder = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            int index = random.nextInt(chars.length());
+            codeBuilder.append(chars.charAt(index));
+        }
+        codeStr = codeBuilder.toString();
         JLabel rightCode = new JLabel();
         rightCode.setText(codeStr);
         rightCode.setBounds(310, 230, 50, 20);
@@ -125,7 +135,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
                 DialogUtils.showJDialog(this,"请输入验证码");
                 return;
             }
-            if (!testCodeField.getText().equals("1234")) {  //next 工具类提供验证
+            if (!testCodeField.getText().equals(codeStr)) {  //next 工具类提供验证
                 DialogUtils.showJDialog(this,"验证码错误");
                 return;
             }
