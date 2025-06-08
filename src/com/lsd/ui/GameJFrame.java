@@ -2,8 +2,8 @@ package com.lsd.ui;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-import java.awt.*;
+//import javax.swing.border.LineBorder;
+//import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,6 +13,7 @@ import java.util.Random;
 import static com.lsd.ui.LoginJFrame.nowName;
 
 public class GameJFrame extends JFrame implements KeyListener, ActionListener {
+    LoginJFrame loginJFrame =null;
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
@@ -26,7 +27,12 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         } else if (source ==reLoginItem) {
             System.out.println("xx");
             this.setVisible(false);
-            new LoginJFrame();
+            //new LoginJFrame();
+            if(loginJFrame == null){
+                loginJFrame = new LoginJFrame();
+            }else {
+                loginJFrame.setVisible(true);
+            }
             //登录页面
 
         } else if (source ==wxItem) {

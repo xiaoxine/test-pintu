@@ -18,14 +18,17 @@ public class LoginJFrame extends JFrame implements MouseListener {
     JTextField userNameField = new JTextField();
     JPasswordField passWordField = new JPasswordField();
     JTextField testCodeField = new JTextField();
-
+    //只创建一个子窗口实例,防止多次创建
+    GameJFrame gameJFrame = null;
+    RegisterJFrame registerJFrame = null;
+    //当前玩家
     static String nowName ="" ;
 
     //创建一个集合存储正确的内容
     static ArrayList<User> list = new ArrayList<>();
-
+    //只执行一次，随着类的加载而加载，做数据初始化,静态里面只能用静态
     static {
-        list.add(new User("zhangsan", "12345".toCharArray()));
+        list.add(new User("bb", "bb".toCharArray()));
         list.add(new User("aa", "aa".toCharArray()));
     }
 
@@ -139,7 +142,13 @@ public class LoginJFrame extends JFrame implements MouseListener {
                         loginSuccess = true;
                         this.setVisible(false);
                         nowName = tempUser;
-                        new GameJFrame();
+                        //new GameJFrame();
+                        if(gameJFrame == null){
+                            gameJFrame = new GameJFrame();
+                        }else
+                        {
+                            gameJFrame.setVisible(true);
+                        }
                         //游戏页面
                         break; // 找到匹配用户后可以退出循环
                     }
@@ -152,7 +161,13 @@ public class LoginJFrame extends JFrame implements MouseListener {
 
         } else if (source == jButton4 || source == jButton2) {//注册
             this.setVisible(false);
-            new RegisterJFrame();
+            //new RegisterJFrame();
+            if(registerJFrame == null){
+                registerJFrame = new RegisterJFrame();
+            }else
+            {
+                registerJFrame.setVisible(true);
+            }
         }
 
     }
