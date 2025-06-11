@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 //import javax.swing.border.LineBorder;
 //import java.awt.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -164,9 +165,13 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
 
         }
         JLabel stepCount = new JLabel("步数:"+count);
+        stepCount.setFont(new Font("微软雅黑", Font.BOLD, 16));
         stepCount.setBounds(50,30,100,20);
         this.getContentPane().add(stepCount);
+
+
         JLabel jName = new JLabel("当前玩家:"+nowName);//LoginJFrame.nowName
+        jName.setFont(new Font("微软雅黑", Font.BOLD, 16));
         jName.setBounds(50,50,100,20);
         this.getContentPane().add(jName);
 
@@ -273,6 +278,8 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
     //按下不松开
     @Override
     public void keyPressed(KeyEvent e) {
+        if(victory())
+            return;//结束
         int keyCode = e.getKeyCode();
         if (keyCode == 65) {
             //清空已出现
