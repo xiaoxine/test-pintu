@@ -3,7 +3,6 @@ package com.lsd.ui;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 //import javax.swing.border.LineBorder;
-//import java.awt.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,21 +11,18 @@ import java.awt.event.KeyListener;
 import java.util.Random;
 
 import static com.lsd.ui.LoginJFrame.nowName;
-
+//游戏界面
 public class GameJFrame extends JFrame implements KeyListener, ActionListener {
-    LoginJFrame loginJFrame =null;
+    LoginJFrame loginJFrame =null;//loginFrame对象，唯一
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if(source == replayItem){
-            count =0;
-             initData();
-             initImage();
-
-        }else if(source == exitItem){
+        if(source == replayItem){ //重玩
+            rePlay();
+        }else if(source == exitItem){ //退出
             System.exit(0);
-        } else if (source ==reLoginItem) {
-            System.out.println("xx");
+        } else if (source ==reLoginItem) {        //跳转到登录页面
+            System.out.println("重写登录");
             this.setVisible(false);
             //new LoginJFrame();
             if(loginJFrame == null){
@@ -34,51 +30,77 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             }else {
                 loginJFrame.setVisible(true);
             }
-            //登录页面
+        } else if (source ==wxItem) { //弹出对话框
+            System.out.println("公众号");
 
-        } else if (source ==wxItem) {
-            System.out.println("wx");
-            JDialog jd = new JDialog();
             JLabel jLabel = new JLabel(new ImageIcon("image\\damie.jpg"));
             jLabel.setBounds(0, 0, 300, 300);
-            jd.getContentPane().add(jLabel);
-            jd.setSize(300, 300);
-            jd.setAlwaysOnTop(true);
-            jd.setLocationRelativeTo(null);
-            jd.setModal(true);//不关闭不能操作
-            jd.setVisible(true);
+            showDialog1(jLabel,100,100,true,"wx公众号");
 
-        } else if (source == girlItem) {
-            System.out.println("girl");
-            //随机
-            Random r= new Random();
-            //path
+
+        } else if (source == howToPlayItem) {
+            String str = """
+        数字华容道，或者叫做15 puzzle、数字滑块拼图等，是比较常见的一款经典拼图游戏。
+        1. 记住细节：按住a键看全图，从上到下，从左到右，分为1,2,3,...14,15，每个图片代表一个数字
+        2. 按行还原：先还原第1行，再第2行，最后两行分块处理。
+        3. 固定块顺序：不要破坏已排好位置的块；
+           图片1,2,5,6随便排。
+        4. 横着玩法：将图片3移动到4的位置，同时把图片4放到图片3后面，转一圈即可归位，7,8同理。
+        5. 竖着玩法：9和13同理，10和14同理。
+        6. 最后3张图转一圈。
+        """;
+
+            JTextArea textArea = new JTextArea(str);
+
+            textArea.setLineWrap(true); // 自动换行
+            textArea.setWrapStyleWord(true); // 单词边界换行
+            textArea.setEditable(false); // 只读
+            textArea.setOpaque(false); // 背景透明（可选）
+
+            textArea.setFont(new Font("微软雅黑", Font.BOLD, 16));
+
+            showDialog1(textArea,750,300,false,"提示");
+
+        } else if (source == girlItem) { //加载其他图片
+            Random r= new Random();//随机path
              path ="image\\girl\\girl"+r.nextInt(13)+"\\";
             //重新加载
-            count =0;
-            initData();
-            initImage();
+            rePlay();
         } else if (source == animalItem) {
-            //随机
-            Random r= new Random();
-            //path
+            Random r= new Random();//随机path
             path ="image\\animal\\animal"+r.nextInt(8)+"\\";
-            //重新加载
-            count =0;
-            initData();
-            initImage();
+            rePlay();
         } else if (source== sportItem) {
-            //随机
             Random r= new Random();
-            //path有路径错误的情况
+            //path这里有路径错误的情况bug，空白
             path ="image\\sport\\sport"+r.nextInt(10)+"\\";
-            //重新加载
-            count =0;
-            initData();
-            initImage();
+            rePlay();
         }
     }
+    //重新加载
+    private void rePlay()
+    {
+        count =0;
+        initData();
+        initImage();
+    }
+    private void showDialog1(JComponent comp,int x,int y,boolean flag,String str1)
+    {
+        JDialog jd = new JDialog();
+        jd.getContentPane().add(comp);
+        jd.setSize(x, y);
 
+        jd.setAlwaysOnTop(true);
+        jd.setLocationRelativeTo(null);
+        if(flag){
+            jd.setModal(true);//不关闭不能操作
+            }
+        //jd.setBackground(Color.yellow);//错误
+        jd.getContentPane().setBackground(Color.gray);
+
+        jd.setTitle(str1);
+        jd.setVisible(true);
+    }
     //二维数组,管理数据，加载图片需用到，扩大范围
     int[][] data =new int[4][4];
     //记录空白的二维数组
@@ -98,8 +120,8 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
     JMenuItem girlItem = new JMenuItem("女孩");
     JMenuItem animalItem = new JMenuItem("动物");
     JMenuItem sportItem = new JMenuItem("运动");
-    //
     JMenuItem wxItem= new JMenuItem("公众号");
+    JMenuItem howToPlayItem = new JMenuItem("诀窍");
 
     public GameJFrame() {
         //初始化界面
@@ -108,42 +130,52 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         initJMenuBar();
         //初始化数据
         initData();
-        //图片
+        //初始化图片
         initImage();
         //可见
         this.setVisible(true);
         //shift+ enter 中途换行
     }
-
+    //模拟手动人工打乱data，确保有解
     private void initData() {
-        int[] tempArray ={0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-        Random random = new Random();
-        //打乱
-        for (int i = 0; i < tempArray.length; i++) {
-            int index = random.nextInt(tempArray.length);
-            //交换
-            int temp = tempArray[i];
-            tempArray[i] = tempArray[index];
-            tempArray[index] = temp;
+        // 初始顺序拼图：1 ~ 15，0 代表空格
+        int num = 1;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (num <= 15) {
+                    data[i][j] = num++;
+                } else {
+                    data[i][j] = 0; // 空格
+                    x = i;
+                    y = j;
+                }
+            }
         }
-//old
-/*        int index =0;
-        //赋值二维数组
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length; j++) {
-                data[i][j] = tempArray[index];//或index=0，index++，，， tempArray[i*4+j]
-                index++;
-            }
-        }*/
-        for (int i = 0; i < tempArray.length; i++) {
-            if(tempArray[i]==0){
-                x=i/4;
-                y=i%4;
-            }
-            data[i/4][i%4]=tempArray[i];
 
+        // 通过合法滑动打乱拼图
+        Random random = new Random();
+        for (int i = 0; i < 1000; i++) { // 随机滑动1000步
+            int dir = random.nextInt(4);
+            int newX = x, newY = y;
+
+            switch (dir) {
+                case 0: newX = x - 1; break; // 上
+                case 1: newX = x + 1; break; // 下
+                case 2: newY = y - 1; break; // 左
+                case 3: newY = y + 1; break; // 右
+            }
+
+            // 判断是否越界
+            if (newX >= 0 && newX < 4 && newY >= 0 && newY < 4) {
+                // 交换空格和目标位置，模拟打乱data，确保有解
+                data[x][y] = data[newX][newY];
+                data[newX][newY] = 0;
+                x = newX;
+                y = newY;
+            }
         }
     }
+
 
     private void initImage() {
 //        //成就ImageIcon对象
@@ -168,7 +200,6 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         stepCount.setFont(new Font("微软雅黑", Font.BOLD, 16));
         stepCount.setBounds(50,30,100,20);
         this.getContentPane().add(stepCount);
-
 
         JLabel jName = new JLabel("当前玩家:"+nowName);//LoginJFrame.nowName
         jName.setFont(new Font("微软雅黑", Font.BOLD, 16));
@@ -212,7 +243,7 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
 
     private void initJFrame() {
         //标题
-        this.setTitle("拼图单机版v1.0.0");
+        this.setTitle("拼图单机版v2.0.0");
         //大小
         this.setSize(628,668);
         //多个窗口，在顶
@@ -236,6 +267,7 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         JMenuBar menuBar = new JMenuBar();
         //菜单
         JMenu functionJMenu = new JMenu("功能");
+        JMenu showPlayItem = new JMenu("玩法介绍");
         JMenu aboutItem = new JMenu("关于我们");
 
         JMenu changeMenu = new JMenu("change");
@@ -260,8 +292,12 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         aboutItem.add(wxItem);
         wxItem.addActionListener(this);
 
+        showPlayItem.add(howToPlayItem);
+        howToPlayItem.addActionListener(this);
+
         //菜单加到菜单栏
         menuBar.add(functionJMenu);
+        menuBar.add(showPlayItem);
         menuBar.add(aboutItem);
         //给整个界面设置菜单栏
         this.setJMenuBar(menuBar);
