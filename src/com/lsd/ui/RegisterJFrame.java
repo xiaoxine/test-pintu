@@ -1,9 +1,13 @@
 package com.lsd.ui;
 
+import com.lsd.ui.utils.DialogUtils;
+import com.lsd.ui.utils.JsonUtils;
+
 import javax.swing.*;
 //import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Objects;
 
 //import static com.lsd.ui.LoginJFrame.list;
@@ -16,9 +20,9 @@ public class RegisterJFrame extends JFrame implements ActionListener {
         if(source ==jButton2 )
         {
             String tempUser = userNameField.getText();
-            char[] tempPass = passWordField.getPassword();
+            String tempPass = new String(passWordField.getPassword());
 
-            if (Objects.equals(tempUser, "") || tempPass.length == 0) {
+            if (Objects.equals(tempUser, "") || tempPass.length() == 0) {
                 DialogUtils.showJDialog(this,"请输入用户名或密码");
                 return;
             }
@@ -34,11 +38,16 @@ public class RegisterJFrame extends JFrame implements ActionListener {
                 return;
             }
             LoginJFrame.list.add(new User(tempUser, tempPass));
+            JsonUtils.saveUsersToJson(LoginJFrame.list,"users.json");
             this.setVisible(false);
             //new LoginJFrame().setVisible(true);//这里重复用户名密码不会报错，static共享了，但是有更好的写法
             if(loginJFrame == null)
             {
-                loginJFrame = new LoginJFrame();
+                try {
+                    loginJFrame = new LoginJFrame();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }else
             {
                 loginJFrame.setVisible(true);

@@ -1,4 +1,4 @@
-package com.lsd.ui;
+package com.lsd.ui.utils;
 
 import javax.swing.*;
 import java.awt.*;

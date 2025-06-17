@@ -1,18 +1,20 @@
 package com.lsd.ui;
 
 public class User {
-    String userName;
-    char[] passWord;
+    private String userName;
+    //char[] passWord; //old
+    private String passWord;
 
-    User(String userName, char[] passWord) {
+    User(String userName, String passWord) {
         this.userName = userName;
         this.passWord = passWord;
     }
     public String getUserName() {
         return userName;
     }
-    public char[] getPassWord() {
+    public String getPassWord() {
         return passWord;
     }
+    User(){}
 
 }

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.Random;
 
 import static com.lsd.ui.LoginJFrame.nowName;
@@ -26,7 +27,11 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
             this.setVisible(false);
             //new LoginJFrame();
             if(loginJFrame == null){
-                loginJFrame = new LoginJFrame();
+                try {
+                    loginJFrame = new LoginJFrame();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }else {
                 loginJFrame.setVisible(true);
             }

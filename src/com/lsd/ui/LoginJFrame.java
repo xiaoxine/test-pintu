@@ -1,9 +1,14 @@
 package com.lsd.ui;
 
+import com.lsd.ui.utils.DialogUtils;
+import com.lsd.ui.utils.JsonUtils;
+
 import javax.swing.*;
 //import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -25,17 +30,29 @@ public class LoginJFrame extends JFrame implements MouseListener {
     //当前玩家
     static String nowName ="" ;
     String codeStr = "1234";
-    //创建一个集合存储正确的内容
+/*    //创建一个集合存储正确的内容
     static ArrayList<User> list = new ArrayList<>();
     // 静态代码块,只执行一次，随着类的加载而加载，做数据初始化,静态里面只能用静态
     static {
         list.add(new User("bb", "bb".toCharArray()));
         list.add(new User("aa", "aa".toCharArray()));
-    }
+    }*/
+    static ArrayList<User> list = new ArrayList<>();
+    //static {list.add(new User("bb", "bb"));}
+
 
     //构造方法，加载配置
-    public LoginJFrame() {
-
+    public LoginJFrame() throws IOException {
+        File file = new File("users.json");
+        if(!file.exists()){
+            try {//在文件系统上执行操作有很多可能会失败的情况,所以要抛出异常
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            JsonUtils.saveUsersToJson(new ArrayList<>(),"users.json");
+        }
+        list = JsonUtils.loadUsersFromJson("users.json");
         //取消默认的组件居中方式，细节
         this.setLayout(null);
         this.setTitle("登录界面");
@@ -124,13 +141,15 @@ public class LoginJFrame extends JFrame implements MouseListener {
         //获取验证码的输入，密码用户名
 
         //比较
+        list.clear();
+        list = JsonUtils.loadUsersFromJson("users.json");
 
         Object source = e.getSource();//事件获取
         if (source == jButton3 || source == jButton1) {//登录
             System.out.println(userNameField.getText());
             System.out.println(passWordField.getPassword());
             String tempUser = userNameField.getText();
-            char[] tempPass = passWordField.getPassword();
+            String tempPass =  new String(passWordField.getPassword());//char[] 转
             if (Objects.equals(testCodeField.getText(), "")) {
                 DialogUtils.showJDialog(this,"请输入验证码");
                 return;
@@ -139,7 +158,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
                 DialogUtils.showJDialog(this,"验证码错误");
                 return;
             }
-            if (Objects.equals(tempUser, "") || tempPass.length == 0) {
+            if (Objects.equals(tempUser, "") || tempPass.length() == 0) {
                 //System.out.println("请输入用户名或密码");
                 DialogUtils.showJDialog(this,"请输入用户名或密码");
                 return;
@@ -147,7 +166,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
             boolean loginSuccess = false;
             for (User user : list) {
                 if (tempUser.equals(user.getUserName())) {
-                    if (Arrays.equals(tempPass, user.getPassWord())) {
+                    if (tempPass.equals(user.getPassWord())) {
                         System.out.println("登录成功");
                         loginSuccess = true;
                         this.setVisible(false);
