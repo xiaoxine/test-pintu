@@ -1,5 +1,7 @@
 package com.lsd.ui;
 
+import com.lsd.ui.utils.JsonUtils;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 //import javax.swing.border.LineBorder;
@@ -11,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.Random;
 
+import static com.lsd.ui.LoginJFrame.list;
 import static com.lsd.ui.LoginJFrame.nowName;
 //游戏界面
 public class GameJFrame extends JFrame implements KeyListener, ActionListener {
@@ -210,6 +213,22 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         jName.setFont(new Font("微软雅黑", Font.BOLD, 16));
         jName.setBounds(50,50,100,20);
         this.getContentPane().add(jName);
+        if(LoginJFrame.currentUser != null){
+            int nowBestScore = LoginJFrame.currentUser.getScore();
+            //max
+            JLabel bestScores = new JLabel("最佳得分:"+(Math.max(nowBestScore, count)));
+            bestScores.setFont(new Font("微软雅黑", Font.BOLD, 16));
+            bestScores.setBounds(150,50,100,20);
+            this.getContentPane().add(bestScores);
+            //json,成功才show
+            for (User user : list) {
+                if (nowName.equals(user.getUserName())) {
+                    user.setScore(nowBestScore);
+                }
+            }
+            JsonUtils.saveUsersToJson(list,"users.json");
+        }
+
 
 /*        JLabel jNum = new JLabel("当前排名:");//LoginJFrame.nowName
         jNum.setBounds(50,50,100,20);
@@ -415,5 +434,4 @@ public class GameJFrame extends JFrame implements KeyListener, ActionListener {
         }
         return true;//完毕
     }
-
 }

@@ -37,7 +37,7 @@ public class RegisterJFrame extends JFrame implements ActionListener {
                 DialogUtils.showJDialog(this,"用户名已存在");
                 return;
             }
-            LoginJFrame.list.add(new User(tempUser, tempPass));
+            LoginJFrame.list.add(new User(tempUser, tempPass,0));
             JsonUtils.saveUsersToJson(LoginJFrame.list,"users.json");
             this.setVisible(false);
             //new LoginJFrame().setVisible(true);//这里重复用户名密码不会报错，static共享了，但是有更好的写法

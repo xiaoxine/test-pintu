@@ -30,6 +30,8 @@ public class LoginJFrame extends JFrame implements MouseListener {
     //当前玩家
     static String nowName ="" ;
     String codeStr = "1234";
+    //当前user
+    public static User currentUser = null;//
 /*    //创建一个集合存储正确的内容
     static ArrayList<User> list = new ArrayList<>();
     // 静态代码块,只执行一次，随着类的加载而加载，做数据初始化,静态里面只能用静态
@@ -171,6 +173,7 @@ public class LoginJFrame extends JFrame implements MouseListener {
                         loginSuccess = true;
                         this.setVisible(false);
                         nowName = tempUser;
+                        currentUser = user;
                         //new GameJFrame();
                         if(gameJFrame == null){
                             gameJFrame = new GameJFrame();
